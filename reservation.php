@@ -1,9 +1,9 @@
 <?php
 /*
-Plugin Name: Plugin reservation wordpress
-Description: Plugin permettant aux utilisateurs de réserver un créneau par jour.
+Nom: Plugin reservation wordpress
+Description: Plugin permettant aux utilisateurs de réserver un créneau.
 Version: 1.0
-Author: Romain Philip
+Autheur: Romain Philip
 */
 
 // Fonction pour ajouter le formulaire de réservation
@@ -23,13 +23,23 @@ function reservation_form_shortcode() {
         <label for="date">Date :</label>
         <input type="date" name="reservation_date" required><br>
 
+        <label for="time">Heure :</label>
+        <select name="reservation_time" required>
+            <option value="09:00">09:00</option>
+            <option value="10:00">10:00</option>
+            <option value="11:00">11:00</option>
+            <option value="14:00">14:00</option>
+            <option value="15:00">15:00</option>
+            <option value="16:00">16:00</option>
+            <option value="17:00">17:00</option>
+
         <input type="submit" name="submit_reservation" value="Réserver">
     </form>
     <?php
     return ob_get_clean();
 }
 
-// Enregistrez le shortcode pour afficher le formulaire
+// Shortcode pour afficher le formulaire
 add_shortcode('reservation_form', 'reservation_form_shortcode');
 
 // Fonction pour traiter la soumission du formulaire
@@ -40,7 +50,7 @@ function process_reservation_form() {
         $email = sanitize_email($_POST['email']);
         $reservation_date = sanitize_text_field($_POST['reservation_date']);
 
-        // Enregistrez les informations dans la base de données (à implémenter)
+        // Fonction permettant d'envoyer un mail aux administrateurs du site
 
         function send_reservation_email($first_name, $last_name, $email, $reservation_date) {
             $to = get_option('admin_email');
@@ -58,5 +68,5 @@ function process_reservation_form() {
     }
 }
 
-// Ajoutez une action pour traiter la soumission du formulaire
+// Action pour traiter la soumission du formulaire
 add_action('init', 'process_reservation_form');
